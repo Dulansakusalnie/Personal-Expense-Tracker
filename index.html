@@ -1,0 +1,280 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Personal Expense Tracker</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@6.0.0-alpha.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-B/GM4XqrwHnWXNOWMbloTmrYXZg10cakYGmpfsR/bbzQ6JAJI4ihuyADKLnBgrCe" crossorigin="anonymous">
+    <style>
+.custom-select {
+    position: relative;
+    width: 100%;
+}
+
+.custom-select-button {
+    width: 100%;
+    height: 45px;
+    background: white;
+    color: black;
+    border: 1px solid #ced4da;
+    border-radius: 5px;
+    padding: 8px 12px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+}
+
+.custom-select-options {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    background: #555;
+    padding: 5px;
+    z-index: 1000;
+}
+
+.custom-select-options.show {
+    display: block;
+}
+
+.custom-option {
+    color: white;
+    padding: 8px;
+    cursor: pointer;
+}
+
+.custom-option:hover {
+    background: #333;
+}
+
+.custom-option.selected {
+    background: #0d6efd;
+    color: white;
+}
+
+.delete-btn {
+    background-color: white;
+    color: #dc3545;
+    border: 1px solid #dc3545;
+    padding: 5px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.delete-btn:hover {
+    background-color: #dc3545;
+    color: white;
+}
+</style>
+  </head>
+  
+  <body class="p-3 mb-2 bg-1">
+    <nav class="navbar md:navbar-expand bg-1 mb-4" data-bs-theme="dark">
+        <div class="container">
+            <span class="navbar-brand">Personal Expense Tracker</span>
+        </div>
+    </nav>
+    <div class="container">
+        <h4>Financial Dashboard</h4>
+        <p>Manage your income and expenses in one place</p>
+    </div>
+<div class="container mt-4">
+    <div class="row g-3">
+        <div class="col-12 md:col-4">
+            <div class="card shadow-sm border-0 rounded-3">
+                <div class="card-body p-4">
+                    <h6 class="text-secondary">Total Income</h6>
+                    <h4 id="totalIncome" class="fw-bold">LKR 0.00</h4>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-12 md:col-4">
+            <div class="card shadow-sm border-0 rounded-3">
+                <div class="card-body p-4">
+                    <h6 class="text-secondary">Total Expenses</h6>
+                    <h4 id="totalExpenses" class="fw-bold">LKR 0.00</h4>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-12 md:col-4">
+            <div class="card shadow-sm border-0 rounded-3">
+                <div class="card-body p-4">
+                    <h6 class="text-secondary">Current Balance</h6>
+                    <h4 id="currentBalance" class="fw-bold">LKR 0.00</h4>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container mt-4">
+<div class="row mt-4">
+    <div class="col-12">
+        <div class="card border-0">
+            <div class="card-body">
+
+                <h5 class="card-title mb-4">Add a Transaction</h5>
+
+                <form id="transactionForm">
+                    <div class="row">
+
+                        <!-- Left Column -->
+                        <div class="col-6">
+
+                            <div class="mb-3">
+                                <label class="form-label">Transaction Type</label>
+                                <div class="custom-select" id="typeDropdown">
+
+    <button type="button" class="custom-select-button">
+        <span>Select Type</span>
+        <span>⌄</span>
+    </button>
+
+    <div class="custom-select-options">
+        <div class="custom-option" data-value="Income">Income</div>
+        <div class="custom-option" data-value="Expense">Expense</div>
+    </div>
+
+</div>
+
+<input type="hidden" id="transactionType" value="">
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label">Amount (LKR)</label>
+                                <input type="number" id="amount" class="form-control w-100"
+                                    style="height: 45px;" placeholder="Enter amount">
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label">Transaction Date</label>
+                                <input type="date" id="date" class="form-control w-100"
+                                    style="height: 45px;">
+                            </div>
+
+                        </div>
+
+                        <!-- Right Column -->
+                        <div class="col-6">
+
+                            <div class="mb-3">
+                                <label class="form-label">Description</label>
+                                <input type="text" id="description" class="form-control w-100"
+                                    style="height: 45px;" placeholder="e.g.Monthly allowance">
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label">Category</label>
+                                <div class="custom-select" id="categoryDropdown">
+
+    <button type="button" class="custom-select-button">
+        <span>Select a Category</span>
+        <span>⌄</span>
+    </button>
+
+    <div class="custom-select-options">
+        <div class="custom-option" data-value="Allowance">Allowance</div>
+        <div class="custom-option" data-value="Salary">Salary</div>
+        <div class="custom-option" data-value="Food">Food</div>
+        <div class="custom-option" data-value="Transport">Transport</div>
+        <div class="custom-option" data-value="Education">Education</div>
+        <div class="custom-option" data-value="Entertainment">Entertainment</div>
+        <div class="custom-option" data-value="Shopping">Shopping</div>
+        <div class="custom-option" data-value="Bills">Bills</div>
+        <div class="custom-option" data-value="Other">Other</div>
+
+    </div>
+
+</div>
+
+<input type="hidden" id="category" value="">
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <button type="submit" class="btn" style="background-color: #0d6efd; color: white; border: none;">
+                      Add Transaction
+                    </button>
+
+                    <button type="reset" class="btn btn-outline-secondary">
+                      Clear Form
+                    </button>
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-12">
+            <div class="card bg-white border-0 shadow-sm rounded-3">
+                <div class="card-body p-4">
+
+                    <h5 class="card-title mb-4">Transaction History</h5>
+
+                    <div class="row">
+
+                        <!-- Left Side -->
+                        <div class="col-6">
+                            <label class="form-label">Filter by Type</label>
+                            <select class="form-control w-100" id="filterType"
+                                style="height: 45px;">
+                                <option value="All" selected>All Transactions</option>
+                                <option value="Income">Income</option>
+                                <option value="Expense">Expense</option>
+                            </select>
+                        </div>
+
+                        <!-- Right Side -->
+                        <div class="col-6">
+                            <label class="form-label">Search Transactions</label>
+                            <input type="text" class="form-control w-100"
+                                id="searchTransaction" style="height: 45px;"
+                                placeholder="Search by description or category">
+                        </div>
+
+                    </div>
+
+                    <div class="table-responsive mt-4">
+                    <table class="table">
+                      <thead>
+                        <tr>
+                          <th style="background-color: #e9ecef;">Date</th>
+                          <th style="background-color: #e9ecef;">Description</th>
+                          <th style="background-color: #e9ecef;">Type</th>
+                          <th style="background-color: #e9ecef;">Category</th>
+                          <th style="background-color: #e9ecef;">Amount(LKR)</th>
+                          <th style="background-color: #e9ecef;">Action</th>
+                        </tr>
+                      </thead>
+
+                      <tbody id="transactionTableBody">
+                        <tr id="emptyMessage">
+                        <td colspan="6" class="text-center text-secondary">
+                          No transactions found
+                        </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+    <script src="script.js"></script>
+    <script type="module" src="https://cdn.jsdelivr.net/npm/bootstrap@6.0.0-alpha.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-1a/pXj49ZQ1aHEmrJ+gMw1otqoVsYwlEnlD8mIfY2TV03r20Y0CN7uqx1tQogjPL" crossorigin="anonymous"></script>
+  </body>
+</html>
+
+
